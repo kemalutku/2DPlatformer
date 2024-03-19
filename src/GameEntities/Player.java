@@ -4,6 +4,7 @@ import GameEntities.Attack.Attack;
 import GameEntities.Attack.FireAttack;
 import GameEntities.Attack.WaterAttack;
 import GameEntities.Elemental.*;
+import GameEntities.KeyHandler.KeyHandler;
 import Main.GamePanel;
 
 import java.awt.*;
@@ -23,6 +24,8 @@ public class Player extends GameEntity {
     boolean attackReady = false;
     KeyHandler keyH;
 
+    private boolean isPlayer2 = false;
+
     public Player(int x, int y, GamePanel gp, KeyHandler keyH) {
         super(x, y, TILE_SIZE, TILE_SIZE);
         this.gp = gp;
@@ -34,51 +37,104 @@ public class Player extends GameEntity {
         lastSprite = elementalState.left1;
     }
 
+    public void setPlayer2(boolean isPlayer2) {
+        this.isPlayer2 = isPlayer2;
+    }
+
     public void update() {
-        if (keyH.attackPressed) {
-            attackReady = true;
+        if (!isPlayer2) {
+            if (keyH.attackPressed1) {
+                attackReady = true;
+            } else {
+                if (attackReady) {
+                    Attack newAttack;
+                    if (elementalState instanceof FireState) {
+                        newAttack = new FireAttack(this.x, this.y, this.direction, this.gp);
+                        gp.addPlayerAttack(newAttack);
+                    } else if (elementalState instanceof WaterState) {
+                        newAttack = new WaterAttack(this.x, this.y, this.direction, this.gp);
+                        gp.addPlayerAttack(newAttack);
+                    }
+                    attackReady = false;
+                }
+            }
+            if (keyH.firePressed1) {
+                elementalState = fire;
+            }
+            if (keyH.waterPressed1) {
+                elementalState = water;
+            }
+            if (keyH.spacePressed1) {
+                elementalState = space;
+            }
+            if (keyH.upPressed1) {
+                if (onFloor) {
+                    vy -= GRAVITY * speed;
+                    onFloor = false;
+                    if (elementalState instanceof SpaceState) {
+                        vy *= 1.25F;
+                    }
+                }
+            }
+            if (keyH.downPressed1) {
+                this.vy = speed;
+            }
+            if (keyH.leftPressed1) {
+                direction = "left";
+                this.vx = -speed;
+            }
+            if (keyH.rightPressed1) {
+                direction = "right";
+                this.vx = speed;
+            }
         } else {
-            if (attackReady) {
-                Attack newAttack;
-                if (elementalState instanceof FireState) {
-                    newAttack = new FireAttack(this.x, this.y, this.direction, this.gp);
-                    gp.addPlayerAttack(newAttack);
-                } else if (elementalState instanceof WaterState) {
-                    newAttack = new WaterAttack(this.x, this.y, this.direction, this.gp);
-                    gp.addPlayerAttack(newAttack);
-                }
-                attackReady = false;
-            }
-        }
-        if (keyH.firePressed) {
-            elementalState = fire;
-        }
-        if (keyH.waterPressed) {
-            elementalState = water;
-        }
-        if (keyH.spacePressed) {
-            elementalState = space;
-        }
-        if (keyH.upPressed) {
-            if (onFloor) {
-                vy -= GRAVITY * speed;
-                onFloor = false;
-                if (elementalState instanceof SpaceState) {
-                    vy *= 1.25F;
+            if (keyH.attackPressed2) {
+                attackReady = true;
+            } else {
+                if (attackReady) {
+                    Attack newAttack;
+                    if (elementalState instanceof FireState) {
+                        newAttack = new FireAttack(this.x, this.y, this.direction, this.gp);
+                        gp.addPlayerAttack(newAttack);
+                    } else if (elementalState instanceof WaterState) {
+                        newAttack = new WaterAttack(this.x, this.y, this.direction, this.gp);
+                        gp.addPlayerAttack(newAttack);
+                    }
+                    attackReady = false;
                 }
             }
+            if (keyH.firePressed2) {
+                elementalState = fire;
+            }
+            if (keyH.waterPressed2) {
+                elementalState = water;
+            }
+            if (keyH.spacePressed2) {
+                elementalState = space;
+            }
+            if (keyH.upPressed2) {
+                if (onFloor) {
+                    vy -= GRAVITY * speed;
+                    onFloor = false;
+                    if (elementalState instanceof SpaceState) {
+                        vy *= 1.25F;
+                    }
+                }
+            }
+            if (keyH.downPressed2) {
+                this.vy = speed;
+            }
+            if (keyH.leftPressed2) {
+                direction = "left";
+                this.vx = -speed;
+            }
+            if (keyH.rightPressed2) {
+                direction = "right";
+                this.vx = speed;
+            }
         }
-        if (keyH.downPressed) {
-            this.vy = speed;
-        }
-        if (keyH.leftPressed) {
-            direction = "left";
-            this.vx = -speed;
-        }
-        if (keyH.rightPressed) {
-            direction = "right";
-            this.vx = speed;
-        }
+
+
         if (!onFloor) {
             currentTime = System.nanoTime();
             double delta = (double) (currentTime - lastTime) / 1000000000;

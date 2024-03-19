@@ -4,7 +4,7 @@ import GameEntities.Attack.Attack;
 import GameEntities.World.Coin;
 import GameEntities.CollisionChecker;
 import GameEntities.GameEntity;
-import GameEntities.KeyHandler;
+import GameEntities.KeyHandler.KeyHandler;
 import GameEntities.Monster.FireMonster;
 import GameEntities.Monster.GoldMonster;
 import GameEntities.Monster.Monster;
@@ -30,12 +30,14 @@ public class GamePanel extends JPanel implements Runnable {
 
     Thread gameThread;
     KeyHandler keyHandler = new KeyHandler();
+
     public TileManager tileManager = new TileManager(this);
     public CollisionChecker collisionChecker = new CollisionChecker(this);
 
     private final Stack<Attack> playerAttackCreationBuffer = new Stack<>();
     private final Stack<GameEntity> entityRemovalBuffer = new Stack<>();
     public boolean resetGameReq = false;
+    public boolean versusMode = false;
 
     Random random = new Random();
 
@@ -116,6 +118,10 @@ public class GamePanel extends JPanel implements Runnable {
         if (keyHandler.loadPressed) {
             loadGame();
         }
+        if (keyHandler.versusTyped != versusMode) {
+            resetGame(keyHandler.versusTyped);
+            keyHandler.versusTyped = false;
+        }
         while (!playerAttackCreationBuffer.isEmpty()) {
             gameEntityArrayList.add(playerAttackCreationBuffer.pop());
         }
@@ -169,6 +175,22 @@ public class GamePanel extends JPanel implements Runnable {
         score = 0;
         playerAttackCreationBuffer.clear();
         System.out.println("Game reset");
+    }
+
+    public void resetGame(boolean versusMode) {
+        if (versusMode) {
+
+            gameEntityArrayList.clear();
+            playerAttackCreationBuffer.clear();
+            score = 0;
+            Player player1 = new Player(50, 900, this, this.keyHandler);
+            Player player2 = new Player(50, 50, this, this.keyHandler);
+            player2.setPlayer2(true);
+            gameEntityArrayList.add(player1);
+            gameEntityArrayList.add(player2);
+        } else {
+            resetGame();
+        }
     }
 
     public void drawScore(Graphics2D g) {
@@ -229,7 +251,6 @@ public class GamePanel extends JPanel implements Runnable {
             FileInputStream fis = new FileInputStream("SaveFile.obj");
             ObjectInputStream ois = new ObjectInputStream(fis);
             Map<String, Object> state = (Map<String, Object>) ois.readObject();
-            int a = 5;
             score = (Integer) state.get("score");
             ArrayList<Map<String, Object>> entData = (ArrayList<Map<String, Object>>) state.get("entities");
             for (Map<String, Object> ent : entData) {
