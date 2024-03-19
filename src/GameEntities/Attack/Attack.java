@@ -14,14 +14,16 @@ public abstract class Attack extends GameEntity {
     BufferedImage attackImage;
     public ElementalState elementalState;
     GamePanel gp;
+    public int owner;
 
-    public Attack(int x, int y, String direction, ElementalState elementalState, GamePanel gp, String a_dir) {
+    public Attack(int x, int y, String direction, ElementalState elementalState, GamePanel gp, String a_dir, int owner) {
         super(x, y, (int) (TILE_SIZE * ATTACK_SIZE), (int) (TILE_SIZE * ATTACK_SIZE));
         this.speed *= 2;
         this.direction = direction;
         this.elementalState = elementalState;
         this.attackImage = TextureManager.loadTexture(a_dir, ATTACK_SIZE);
         this.gp = gp;
+        this.owner = owner;
     }
 
     @Override

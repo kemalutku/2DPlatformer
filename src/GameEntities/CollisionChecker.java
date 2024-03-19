@@ -168,20 +168,35 @@ public class CollisionChecker {
 
     public void checkEntity(GameEntity gameEntity) {
         if (gameEntity instanceof Player) {
+            int playerNo = ((Player) gameEntity).isPlayer2 ? 2:1;
             for (GameEntity entity : gp.gameEntityArrayList) {
                 if (Objects.equals(gameEntity, entity)) {
                     continue;
                 }
-
                 if (entity instanceof Monster) {
                     if (entity.intersects(gameEntity)) {
                         gp.resetGameRequest();
-
                     }
                 } else if (entity instanceof Coin) {
                     if (entity.intersects(gameEntity)) {
                         gp.removeEntityRequest(entity);
                         gp.addScore(5);
+                    }
+                } else if (entity instanceof Attack) {
+                    if (entity.intersects(gameEntity)) {
+                        Attack ao = (Attack) entity;
+                        if (ao.owner != playerNo) {
+                            gameEntity.health -= 1;
+                            gp.removeEntityRequest(entity);
+                            if (gameEntity.health == 0) {
+                                if (((Player) gameEntity).isPlayer2) {
+                                    gp.endGame(1);
+                                } else {
+                                    gp.endGame(2);
+                                }
+
+                            }
+                        }
                     }
                 }
             }

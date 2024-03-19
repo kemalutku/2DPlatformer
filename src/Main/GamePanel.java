@@ -4,7 +4,7 @@ import GameEntities.Attack.Attack;
 import GameEntities.World.Coin;
 import GameEntities.CollisionChecker;
 import GameEntities.GameEntity;
-import GameEntities.KeyHandler.KeyHandler;
+import Main.KeyHandler.KeyHandler;
 import GameEntities.Monster.FireMonster;
 import GameEntities.Monster.GoldMonster;
 import GameEntities.Monster.Monster;
@@ -24,7 +24,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenWidth = TILE_SIZE * MAX_SCREEN_COL;
     public final int screenHeight = TILE_SIZE * MAX_SCREEN_ROW;
     public int score = 0;
-    private boolean pause = false;
+    private final boolean pause = false;
 
     public ArrayList<GameEntity> gameEntityArrayList = new ArrayList<>();
 
@@ -179,7 +179,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void resetGame(boolean versusMode) {
         if (versusMode) {
-
             gameEntityArrayList.clear();
             playerAttackCreationBuffer.clear();
             score = 0;
@@ -214,7 +213,13 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void endGame() {
-        JOptionPane.showMessageDialog(this, "Score: " + score, "Popup Title", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Score: " + score, "Game Ended", JOptionPane.INFORMATION_MESSAGE);
+        resetGameRequest();
+    }
+
+    public void endGame(int winner) {
+        JOptionPane.showMessageDialog(this, "Player " + winner + " wins", "Game Ended", JOptionPane.INFORMATION_MESSAGE);
+
         resetGameRequest();
     }
 

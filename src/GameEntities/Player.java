@@ -4,7 +4,7 @@ import GameEntities.Attack.Attack;
 import GameEntities.Attack.FireAttack;
 import GameEntities.Attack.WaterAttack;
 import GameEntities.Elemental.*;
-import GameEntities.KeyHandler.KeyHandler;
+import Main.KeyHandler.KeyHandler;
 import Main.GamePanel;
 
 import java.awt.*;
@@ -24,7 +24,7 @@ public class Player extends GameEntity {
     boolean attackReady = false;
     KeyHandler keyH;
 
-    private boolean isPlayer2 = false;
+    public boolean isPlayer2 = false;
 
     public Player(int x, int y, GamePanel gp, KeyHandler keyH) {
         super(x, y, TILE_SIZE, TILE_SIZE);
@@ -49,10 +49,10 @@ public class Player extends GameEntity {
                 if (attackReady) {
                     Attack newAttack;
                     if (elementalState instanceof FireState) {
-                        newAttack = new FireAttack(this.x, this.y, this.direction, this.gp);
+                        newAttack = new FireAttack(this.x, this.y, this.direction, this.gp, 1);
                         gp.addPlayerAttack(newAttack);
                     } else if (elementalState instanceof WaterState) {
-                        newAttack = new WaterAttack(this.x, this.y, this.direction, this.gp);
+                        newAttack = new WaterAttack(this.x, this.y, this.direction, this.gp, 1);
                         gp.addPlayerAttack(newAttack);
                     }
                     attackReady = false;
@@ -94,10 +94,10 @@ public class Player extends GameEntity {
                 if (attackReady) {
                     Attack newAttack;
                     if (elementalState instanceof FireState) {
-                        newAttack = new FireAttack(this.x, this.y, this.direction, this.gp);
+                        newAttack = new FireAttack(this.x, this.y, this.direction, this.gp, 2);
                         gp.addPlayerAttack(newAttack);
                     } else if (elementalState instanceof WaterState) {
-                        newAttack = new WaterAttack(this.x, this.y, this.direction, this.gp);
+                        newAttack = new WaterAttack(this.x, this.y, this.direction, this.gp, 2);
                         gp.addPlayerAttack(newAttack);
                     }
                     attackReady = false;

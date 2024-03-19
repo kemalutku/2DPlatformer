@@ -1,4 +1,4 @@
-package GameEntities.KeyHandler;
+package Main.KeyHandler;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

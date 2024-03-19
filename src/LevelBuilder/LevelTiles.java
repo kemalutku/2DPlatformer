@@ -1,11 +1,14 @@
 package LevelBuilder;
 
 import java.awt.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
 
 public class LevelTiles implements Serializable {
-    private int[][] tileCoordinates = new int[64][40];
+    @Serial
+    private static final long serialVersionUID = 7289169032704376985L;
+    private final int[][] tileCoordinates = new int[64][40];
 
     LevelTiles() {
         for (int[] tileCoordinate : tileCoordinates) {
