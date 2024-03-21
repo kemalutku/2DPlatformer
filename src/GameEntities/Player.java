@@ -4,7 +4,7 @@ import GameEntities.Attack.Attack;
 import GameEntities.Attack.FireAttack;
 import GameEntities.Attack.WaterAttack;
 import GameEntities.Elemental.*;
-import Main.KeyHandler.KeyHandler;
+import Main.KeyHandler;
 import Main.GamePanel;
 
 import java.awt.*;
@@ -34,7 +34,7 @@ public class Player extends GameEntity {
         water = new WaterState();
         space = new SpaceState();
         elementalState = fire;
-        lastSprite = elementalState.left1;
+        lastSprite = elementalState.getLeft1();
     }
 
     public void setPlayer2(boolean isPlayer2) {
@@ -134,7 +134,6 @@ public class Player extends GameEntity {
             }
         }
 
-
         if (!onFloor) {
             currentTime = System.nanoTime();
             double delta = (double) (currentTime - lastTime) / 1000000000;
@@ -178,16 +177,16 @@ public class Player extends GameEntity {
         switch (direction) {
             case "left":
                 if (spriteNum == 1) {
-                    lastSprite = elementalState.left1;
+                    lastSprite = elementalState.getLeft1();
                 } else if (spriteNum == 2) {
-                    lastSprite = elementalState.left2;
+                    lastSprite = elementalState.getLeft2();
                 }
                 break;
             case "right":
                 if (spriteNum == 1) {
-                    lastSprite = elementalState.right1;
+                    lastSprite = elementalState.getRight1();
                 } else if (spriteNum == 2) {
-                    lastSprite = elementalState.right2;
+                    lastSprite = elementalState.getRight2();
                 }
                 break;
         }

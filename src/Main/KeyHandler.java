@@ -1,4 +1,4 @@
-package Main.KeyHandler;
+package Main;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -16,10 +16,6 @@ public class KeyHandler implements KeyListener {
     public boolean pauseTyped = false;
     public boolean savePressed = false, loadPressed = false;
     public boolean versusTyped = false;
-
-
-    public KeyHandler() {
-    }
 
     @Override
     public void keyTyped(KeyEvent e) {

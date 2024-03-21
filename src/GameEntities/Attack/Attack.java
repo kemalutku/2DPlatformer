@@ -12,7 +12,6 @@ import static Main.Settings.*;
 
 public abstract class Attack extends GameEntity {
     BufferedImage attackImage;
-    public ElementalState elementalState;
     GamePanel gp;
     public int owner;
 

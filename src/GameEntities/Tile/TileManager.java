@@ -15,22 +15,22 @@ import static Main.TextureManager.loadTexture;
 
 public class TileManager {
     GamePanel gp;
-    public Tile[] tiles;
+    public Tile[] tileTypes;
     public int[][] tileLocations;
     public int[][] entityLocations;
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
-        tiles = new Tile[8];
+        tileTypes = new Tile[8];
 
-        tiles[0] = new Tile(loadTexture("res/ground.jpg"));
-        tiles[1] = new Tile(loadTexture("res/fire.png"));
-        tiles[2] = new Tile(loadTexture("res/water.jpg"));
-        tiles[3] = new Tile(loadTexture("res/nether.png"));
-        tiles[4] = new Tile(loadTexture("res/coin.png"));
-        tiles[5] = new Tile(loadTexture("res/door.png")); // monster
-        tiles[6] = new Tile(loadTexture("res/door.png"));
-        tiles[7] = new Tile(loadTexture("res/spawner.png"));
+        tileTypes[0] = new Tile(loadTexture("res/ground.jpg"));
+        tileTypes[1] = new Tile(loadTexture("res/fire.png"));
+        tileTypes[2] = new Tile(loadTexture("res/water.jpg"));
+        tileTypes[3] = new Tile(loadTexture("res/nether.png"));
+        tileTypes[4] = new Tile(loadTexture("res/coin.png"));
+        tileTypes[5] = new Tile(loadTexture("res/door.png")); // monster
+        tileTypes[6] = new Tile(loadTexture("res/door.png"));
+        tileTypes[7] = new Tile(loadTexture("res/spawner.png"));
 
 
         tileLocations = new int[MAX_SCREEN_COL][MAX_SCREEN_ROW];
@@ -79,7 +79,7 @@ public class TileManager {
             for (int j = 0; j < MAX_SCREEN_ROW; j++) {
                 int tileType = tileLocations[i][j];
                 if (tileType != -1) {
-                    g2.drawImage(tiles[tileType].image, i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE, null);
+                    g2.drawImage(tileTypes[tileType].image, i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE, null);
                 }
             }
         }

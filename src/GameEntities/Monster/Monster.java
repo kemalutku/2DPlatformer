@@ -62,10 +62,10 @@ public abstract class Monster extends GameEntity {
     public void draw(Graphics g) {
         switch (direction) {
             case "left":
-                g.drawImage(this.elementalState.left1, this.x, this.y, null);
+                g.drawImage(this.elementalState.getLeft1(), this.x, this.y, null);
                 break;
             case "right":
-                g.drawImage(this.elementalState.right1, this.x, this.y, null);
+                g.drawImage(this.elementalState.getRight1(), this.x, this.y, null);
                 break;
         }
     }

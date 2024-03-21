@@ -37,7 +37,7 @@ public abstract class GameEntity extends Rectangle {
 
     public String getElementalName() {
         if (this.elementalState != null) {
-            return this.elementalState.elementName;
+            return this.elementalState.getElementName();
         } else {
             return "";
         }

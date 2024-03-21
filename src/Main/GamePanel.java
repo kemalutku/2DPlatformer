@@ -4,7 +4,6 @@ import GameEntities.Attack.Attack;
 import GameEntities.World.Coin;
 import GameEntities.CollisionChecker;
 import GameEntities.GameEntity;
-import Main.KeyHandler.KeyHandler;
 import GameEntities.Monster.FireMonster;
 import GameEntities.Monster.GoldMonster;
 import GameEntities.Monster.Monster;
@@ -38,6 +37,8 @@ public class GamePanel extends JPanel implements Runnable {
     private final Stack<GameEntity> entityRemovalBuffer = new Stack<>();
     public boolean resetGameReq = false;
     public boolean versusMode = false;
+
+    private boolean argumentLoadingActive = false;
 
     Random random = new Random();
 
@@ -96,6 +97,16 @@ public class GamePanel extends JPanel implements Runnable {
             deltaDraw += (currentTime - lastTime) / drawInterval;
             deltaSpawn += (currentTime - lastTime) / spawnInterval;
             lastTime = currentTime;
+            if (this.pause != this.keyHandler.pauseTyped) {
+                if (keyHandler.savePressed) {
+                    saveGame();
+                    this.keyHandler.pauseTyped = !this.keyHandler.pauseTyped;
+                }
+                if (keyHandler.loadPressed) {
+                    loadGame("SaveFile.obj");
+                    this.keyHandler.pauseTyped = !this.keyHandler.pauseTyped;
+                }
+            }
             if (deltaDraw >= 1) {
                 if (this.pause == this.keyHandler.pauseTyped) {
                     update();
@@ -112,12 +123,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        if (keyHandler.savePressed) {
-            saveGame();
-        }
-        if (keyHandler.loadPressed) {
-            loadGame();
-        }
+
         if (keyHandler.versusTyped != versusMode) {
             resetGame(keyHandler.versusTyped);
             keyHandler.versusTyped = false;
@@ -249,11 +255,10 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-
-    public void loadGame() {
+    public void loadGame(String saveLocation) {
         try {
             gameEntityArrayList.clear();
-            FileInputStream fis = new FileInputStream("SaveFile.obj");
+            FileInputStream fis = new FileInputStream(saveLocation);
             ObjectInputStream ois = new ObjectInputStream(fis);
             Map<String, Object> state = (Map<String, Object>) ois.readObject();
             score = (Integer) state.get("score");
@@ -272,7 +277,7 @@ public class GamePanel extends JPanel implements Runnable {
                     switch (element) {
                         case "fire":
                             loadedPlayer.elementalState = loadedPlayer.fire;
-                            loadedPlayer.lastSprite = loadedPlayer.elementalState.left1;
+                            loadedPlayer.lastSprite = loadedPlayer.elementalState.getLeft1();
                             break;
                         case "water":
                             loadedPlayer.elementalState = loadedPlayer.water;
@@ -301,6 +306,7 @@ public class GamePanel extends JPanel implements Runnable {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+        System.out.println("Load game");
     }
 }
 

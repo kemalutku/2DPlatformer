@@ -25,7 +25,13 @@ public class Main extends JFrame {
         this.panel.startGameThread();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Main main = new Main();
+        if (args.length == 1) {
+            Thread.sleep(5);
+            main.panel.loadGame(args[0]);
+            main.panel.keyHandler.pauseTyped = !main.panel.keyHandler.pauseTyped;
+            main.panel.repaint();
+        }
     }
 }
